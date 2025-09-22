@@ -15,6 +15,10 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // Gaming variants
+        gaming: "gradient-primary text-primary-foreground hover:opacity-90 glow-primary transition-gaming",
+        portal: "gradient-secondary text-secondary-foreground hover:opacity-90 glow-secondary transition-gaming",
+        neon: "gradient-accent text-accent-foreground hover:opacity-90 glow-accent transition-gaming",
       },
       size: {
         default: "h-10 px-4 py-2",
