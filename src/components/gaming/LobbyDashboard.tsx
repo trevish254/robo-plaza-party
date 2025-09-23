@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { GameCard } from './GameCard';
+import { GameModal } from './GameModal';
+import { ObbyGame } from './ObbyGame';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -18,14 +20,17 @@ interface LobbyDashboardProps {
   playerGameStats: GameStats[];
   onPlayGame: (gameId: string) => void;
   onViewGameStats?: (gameId: string) => void;
+  onGameComplete?: (gameId: string) => void;
 }
 
 export const LobbyDashboard = ({ 
   games, 
   playerGameStats, 
   onPlayGame, 
-  onViewGameStats 
+  onViewGameStats,
+  onGameComplete
 }: LobbyDashboardProps) => {
+  const [activeGame, setActiveGame] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'popular' | 'newest' | 'difficulty'>('popular');
@@ -63,6 +68,25 @@ export const LobbyDashboard = ({
 
   const getGameStats = (gameId: string): GameStats | undefined => {
     return playerGameStats.find(stats => stats.gameId === gameId);
+  };
+
+  const handlePlayGame = (gameId: string) => {
+    if (gameId === 'obby-1') {
+      setActiveGame(gameId);
+    } else {
+      onPlayGame(gameId);
+    }
+  };
+
+  const handleGameComplete = (gameId: string) => {
+    setActiveGame(null);
+    if (onGameComplete) {
+      onGameComplete(gameId);
+    }
+  };
+
+  const closeGame = () => {
+    setActiveGame(null);
   };
 
   const totalOnlinePlayers = games.reduce((sum, game) => sum + (game.isActive ? game.totalPlayers : 0), 0);
@@ -176,7 +200,7 @@ export const LobbyDashboard = ({
               key={game.id}
               game={game}
               gameStats={getGameStats(game.id)}
-              onPlay={onPlayGame}
+              onPlay={handlePlayGame}
               onViewStats={onViewGameStats}
             />
           ))}
@@ -192,6 +216,17 @@ export const LobbyDashboard = ({
             </p>
           </div>
         )}
+
+        {/* Game Modals */}
+        <GameModal 
+          isOpen={activeGame === 'obby-1'} 
+          onClose={closeGame}
+        >
+          <ObbyGame 
+            onGameComplete={() => handleGameComplete('obby-1')}
+            onClose={closeGame}
+          />
+        </GameModal>
       </div>
     </div>
   );

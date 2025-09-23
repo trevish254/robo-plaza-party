@@ -247,6 +247,7 @@ const Index = () => {
               console.log('View stats for game:', gameId);
               // Could open a modal or navigate to detailed stats
             }}
+            onGameComplete={handleGameComplete}
           />
           
           {/* 3D Scene Background (optional overlay) */}
