@@ -64,7 +64,6 @@ export const GameModes = ({ gameType, onBack, onGameComplete }: GameModeProps) =
   };
 
   const game = gameData[gameType as keyof typeof gameData];
-  const IconComponent = game.icon;
 
   if (!game) {
     return (
@@ -79,6 +78,9 @@ export const GameModes = ({ gameType, onBack, onGameComplete }: GameModeProps) =
       </div>
     );
   }
+
+  const IconComponent = game.icon;
+
 
   const handleStartGame = () => {
     // Simulate game completion after a short delay
