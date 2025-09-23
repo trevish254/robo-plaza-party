@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { GameCard } from './GameCard';
 import { GameModal } from './GameModal';
 import { ObbyGame } from './ObbyGame';
+import { RacingGame } from './RacingGame';
+import { TycoonGame } from './TycoonGame';
+import { BattleGame } from './BattleGame';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -71,9 +74,11 @@ export const LobbyDashboard = ({
   };
 
   const handlePlayGame = (gameId: string) => {
-    if (gameId === 'obby-1') {
+    // Handle web-based games locally
+    if (['obby-1', 'race-1', 'tycoon-1', 'battle-1'].includes(gameId)) {
       setActiveGame(gameId);
     } else {
+      // Handle external games or other functionality
       onPlayGame(gameId);
     }
   };
@@ -224,6 +229,36 @@ export const LobbyDashboard = ({
         >
           <ObbyGame 
             onGameComplete={() => handleGameComplete('obby-1')}
+            onClose={closeGame}
+          />
+        </GameModal>
+
+        <GameModal 
+          isOpen={activeGame === 'race-1'} 
+          onClose={closeGame}
+        >
+          <RacingGame 
+            onGameComplete={() => handleGameComplete('race-1')}
+            onClose={closeGame}
+          />
+        </GameModal>
+
+        <GameModal 
+          isOpen={activeGame === 'tycoon-1'} 
+          onClose={closeGame}
+        >
+          <TycoonGame 
+            onGameComplete={() => handleGameComplete('tycoon-1')}
+            onClose={closeGame}
+          />
+        </GameModal>
+
+        <GameModal 
+          isOpen={activeGame === 'battle-1'} 
+          onClose={closeGame}
+        >
+          <BattleGame 
+            onGameComplete={() => handleGameComplete('battle-1')}
             onClose={closeGame}
           />
         </GameModal>
